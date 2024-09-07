@@ -13,27 +13,27 @@ async function getBase(req, res) {
     };
 }
 
-async function createUser(req, res) {
-    try {
-        let userExists = await User.findOne({email: req.body.email});
-        if(userExists) {
-            res.status(400).json({
-                message: "user already exist, i think you should login"
-            });
-        } else {
-            let user = new User(req.body);
-            await user.save();
-            res.status(201).json({
-                message: "user created", user
-            });
-        }
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: "server error"
-        });
-    }
-}
+// async function createUser(req, res) {
+//     try {
+//         let userExists = await User.findOne({email: req.body.email});
+//         if(userExists) {
+//             res.status(400).json({
+//                 message: "user already exist, i think you should login"
+//             });
+//         } else {
+//             let user = new User(req.body);
+//             await user.save();
+//             res.status(201).json({
+//                 message: "user created", user
+//             });
+//         }
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: "server error"
+//         });
+//     }
+// }
 
 async function fetchAllUsers(req, res) {
     try {
@@ -104,4 +104,4 @@ async function unknownRoute(req, res) {
 }
 
 
-module.exports = { unknownRoute, getBase, createUser, fetchAllUsers, updateUser, deleteUser };
+module.exports = { unknownRoute, getBase, fetchAllUsers, updateUser, deleteUser };

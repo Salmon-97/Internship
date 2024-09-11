@@ -28,7 +28,7 @@ const session = require("express-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 require("./passport.js");
 const api = express();
-const port = 5050;
+const port = process.env.PORT || 5050;
 const dotenv = require("dotenv");
 dotenv.config();
 

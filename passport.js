@@ -10,7 +10,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID, // google client id
       clientKey: process.env.GOOGLE_CLIENT_KEY,
       // process.env.GOOGLE_CLIENT_KEY, // google client key,
-      callbackURL: "http://localhost:5050/auth/google/callback",
+      callbackURL: "https://skillpaddyblog-api.onrender.com/auth/google/callback",
       passReqToCallback: true,
     },
 

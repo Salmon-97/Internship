@@ -2,16 +2,27 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { 
   unknownRoute, 
+  createUser,
   getBase, 
   fetchAllUsers, 
   updateUser, 
   deleteUser, 
+  createBlog,
+  fetchAllBlogs,
+  updateBlog,
+  deleteBlog,
+  fetchBlogById,
 } = require("./controllers");
 const { 
   signupUser, 
   loginUser, 
   isTokenValid 
 } = require("./controllers/auth.controllers");
+const { 
+  validateSignupData, 
+  validateLoginData 
+
+} = require("./controllers/validator/auth.validator.js")
 const passport = require("passport");
 const session = require("express-session");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -35,7 +46,8 @@ api.use(
   session({ 
     resave: false, 
     saveUninitialized: false, 
-    key: process.env.SESSION_KEY, 
+    // secret: "7fe30b05275f106407b14ce6a5ac50f4da8abda0560deda17b1cb1bb2f665f3e",
+    secret: process.env.SESSION_KEY, 
   }) 
 ); 
 
@@ -48,11 +60,11 @@ api.use(express.json())
 
 
 api.get("/", getBase);
-// api.post("/user", createUser);
-api.get("/user", fetchAllUsers,);
+api.post("/user", createUser, validateLoginData);
+api.get("/user", fetchAllUsers);
 api.put("/user/:id", updateUser)
-api.post("/signup", signupUser);
-api.post("/login", loginUser)
+api.post("/signup", signupUser, validateSignupData);
+api.post("/login", loginUser, validateLoginData)
 api.delete("/user/:id", deleteUser);
 api.post("/post", isTokenValid, (req, res) => {
       try {
@@ -66,6 +78,13 @@ api.post("/post", isTokenValid, (req, res) => {
             });
       }
     });
+
+    api.post("/blog", createBlog);
+    api.put("/blog/:id", updateBlog);
+    api.get("/blog", fetchAllBlogs);
+    api.delete("/blog/:id", deleteBlog);
+    api.get("/blog/:id", fetchBlogById);
+    
 
     // routes 
 api.get('/', (req, res) => { 

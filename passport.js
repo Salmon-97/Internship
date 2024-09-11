@@ -6,9 +6,9 @@ dotenv.config();
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID, // google client id,
-      // process.env.GOOGLE_CLIENT_ID, // google client id
-      clientKey: process.env.GOOGLE_CLIENT_KEY, // google client key,
+      // clientID: "229380274836-8j59btdtipggv4bou80rq71oi4tv27dm.apps.googleusercontent.com",
+      clientID: process.env.GOOGLE_CLIENT_ID, // google client id
+      clientKey: process.env.GOOGLE_CLIENT_KEY,
       // process.env.GOOGLE_CLIENT_KEY, // google client key,
       callbackURL: "http://localhost:5050/auth/google/callback",
       passReqToCallback: true,

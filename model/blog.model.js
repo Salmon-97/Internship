@@ -14,6 +14,10 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    author: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
+    },
 }, 
 {timestamps: true}
 );
@@ -21,3 +25,6 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model("blog", blogSchema);
 
 module.exports = Blog;
+
+
+

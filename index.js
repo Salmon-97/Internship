@@ -12,6 +12,7 @@ const {
   updateBlog,
   deleteBlog,
   fetchBlogById,
+  fetchUserById,
 } = require("./controllers");
 const { 
   signupUser, 
@@ -62,9 +63,10 @@ api.use(express.json())
 api.get("/", getBase);
 api.post("/user", createUser, validateLoginData);
 api.get("/user", fetchAllUsers);
-api.put("/user/:id", updateUser)
+api.get("/user/:id", fetchUserById);
+api.put("/user/:id", updateUser);
 api.post("/signup", signupUser, validateSignupData);
-api.post("/login", loginUser, validateLoginData)
+api.post("/login", loginUser, validateLoginData);
 api.delete("/user/:id", deleteUser);
 api.post("/post", isTokenValid, (req, res) => {
       try {

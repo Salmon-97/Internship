@@ -12,7 +12,7 @@ async function getBase(req, res) {
             message: "server error"
         })
     };
-}
+};
 
 async function createUser(req, res) {
     try {
@@ -47,6 +47,23 @@ async function fetchAllUsers(req, res) {
         });
     }
 }
+
+async function fetchUserById(req, res) {
+    try {
+      const user = await User.findById(req.params.id).populate("blogs");
+      // const allBlogs = await Blog.find()
+      // blogs = allBlogslogs.filter((blog) => blog.author.id == user.id)
+      res.status(200).json({ 
+        message: "user fetched", 
+        user 
+    });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ 
+        message: "server error" 
+    });
+    }
+  };
 
 async function updateUser(req, res) {
     try {
@@ -108,44 +125,51 @@ async function deleteUser (req, res) {
 
 async function createBlog(req, res) {
     try {
-            let blog = new Blog(req.body);
-            await blog.save();
-            res.status(201).json({
-                message: "blog created", blog
-            });
+        let blog = new Blog(req.body);
+        await blog.save();
+        res.status(201).json({
+            message: "blog created", blog
+        });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             message: "server error"
         });
     }
-}
+};
 
 async function fetchAllBlogs(req, res) {
     try {
-        let blogs = await Blog.find()
-        res.status(200).json({message: "blogs fetched", blogs});
+      let blogs = await Blog.find();
+      res.status(200).json({ 
+        message: "blog fetched", 
+        blogs 
+    }).populate("author");
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: "server error"
-        });
+      console.log(error);
+      res.status(500).json({ 
+        message: "server error" 
+    });
     }
-}
+  };
 
 async function fetchBlogById(req, res) {
     try {
-        let blog = await Blog.findById(req.params.id)
-        res.status(200).json({
-            message: "blog fetched by id", blog
-        });
+      let blog = await Blog.findById(req.params.id).populate({
+        path: "author",
+        select: "fullname",
+    });
+      res.status(200).json({ 
+        message: "blog fetched", 
+        blog 
+    });
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: "server error"
-        });
+      console.log(error);
+      res.status(500).json({ 
+        message: "server error" 
+    });
     }
-}
+  };
 
 async function updateBlog(req, res) {
     try {
@@ -204,4 +228,4 @@ async function unknownRoute(req, res) {
 }
 
 
-module.exports = { unknownRoute, createUser, createBlog, getBase, fetchAllUsers, fetchAllBlogs, updateUser, updateBlog, deleteUser, deleteBlog, fetchBlogById };
+module.exports = { unknownRoute, createUser, createBlog, getBase, fetchAllUsers, fetchUserById, fetchAllBlogs, updateUser, updateBlog, deleteUser, deleteBlog, fetchBlogById };

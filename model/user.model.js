@@ -14,6 +14,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    age:  {
+        type: String,
+        required: false
+    },
+    techinterest:  {
+        type: String,
+        required: false
+    },
     email:  {
         type: String,
         required: true
@@ -23,9 +31,16 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 }, 
-{timestamps: true}
+{timestamps: true},
+{ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
+userSchema.virtual("blogs", {
+    ref: "Blog",
+    localField: "_id",
+    foreignField: "author",
+  });
+  
 userSchema.pre("save", function () {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(this.password, salt);
